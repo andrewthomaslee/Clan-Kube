@@ -1,4 +1,4 @@
-# Kubernetes on NixOS 🚀
+# Kubernetes on NixOS ☸️❄️
 
 This project delivers 2 fully reproducible, highly available K3s Kubernetes clusters on NixOS, leveraging Hetzner Cloud and Clan.lol. It champions an Infrastructure as Code approach, treating cloud VMs as disposable "cattle" to achieve significant cost savings (up to 10x) and robust resilience.
 
