@@ -4,7 +4,7 @@ This project delivers 2 fully reproducible, highly available K3s Kubernetes clus
 
 ---
 
-## Key Features & Value
+## Key Features
 
 *   **Declarative Management:** 🤖 Clan.lol orchestrates machines as "cattle, not pets" via a powerful tagging system.
 *   **Immutable Infrastructure:** 🛠️ Built with NixOS for perfect reproducibility and reliability.
