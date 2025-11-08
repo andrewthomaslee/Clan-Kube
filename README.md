@@ -11,7 +11,7 @@ This project delivers 2 fully reproducible, highly available K3s Kubernetes clus
 *   **Dual Clusters:** 👯 Separate Dev and Prod environments for safe development and deployment.
 *   **High Availability & Zone Failure Resilience:** 🌍 Designed to withstand Hetzner zone failures, ensuring continuous operation.
 *   **Cost Optimization:** 💰 Achieved a 10x reduction in cloud bills through efficient management.
-*   **Networking:** 🌐 Tailscale VPN for seamless remote access and K8s API load balancing.
+*   **VPN:** 🌐 Tailscale VPN for seamless remote access and K8s API load balancing.
 *   **Longhorn:** 💾 Longhorn is a distributed block storage system for Kubernetes.
 *   **ArgoCD:** 🐙 ArgoCD for GitOps deployments and continuous delivery.
 *   **Keepalived:** 🔄 Keepalived for high availability and network redundancy.
