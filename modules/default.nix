@@ -1,19 +1,29 @@
 {lib, ...}: {
   imports = [
     ./rclone
-    ./k3s
+    ./rke2
     ./tailscale
+    ./networking
+    ./haproxy
+    ./shell
+    ./disko
     ./keepalived
-    ./nat64
-    ./longhorn
   ];
-  k3s = {
-    enable = lib.mkDefault false;
-    manager = lib.mkDefault false;
+  # --- Disks --- #
+  disko-disks = {
+    enable = lib.mkDefault true;
+    local-storage.enable = lib.mkDefault true;
   };
-  keepalived-web.enable = lib.mkDefault false;
-  longhorn.enable = lib.mkDefault false;
-  nat64.enable = lib.mkDefault true;
-  sftp.enable = lib.mkDefault false;
+
+  # --- Networking --- #
   tailscale-server.enable = lib.mkDefault true;
+  net.enable = lib.mkDefault true;
+  keepalived.enable = lib.mkDefault false;
+
+  # --- Services --- #
+  sftp.enable = lib.mkDefault false;
+  haproxy.enable = lib.mkDefault false;
+
+  #-- Shell --#
+  starship.enable = lib.mkDefault true;
 }

@@ -2,61 +2,18 @@
   meta.name = "Clan-Net";
 
   inventory.machines = {
-    #------- Dev Cluster -------#
-    #--- Helsinki ---#
-    hel-d-m = {
-      deploy.targetHost = "root@hel-d-m";
-      tags = ["dev" "CX33" "helsinki" "manager" "init"];
+    #------- Cluster -------#
+    hel-m-0 = {
+      deploy.targetHost = "root@hel-m-0";
+      tags = ["helsinki" "manager" "init"];
     };
-    hel-d-w = {
-      deploy.targetHost = "root@hel-d-w";
-      tags = ["dev" "CX23" "helsinki" "worker" "web1"];
+    hel-m-1 = {
+      deploy.targetHost = "root@hel-m-1";
+      tags = ["helsinki" "manager"];
     };
-    #--- Falkenstein ---#
-    fsn-d-m = {
-      deploy.targetHost = "root@fsn-d-m";
-      tags = ["dev" "CX33" "falkenstein" "manager"];
-    };
-    fsn-d-w = {
-      deploy.targetHost = "root@fsn-d-w";
-      tags = ["dev" "CX23" "falkenstein" "worker" "web2"];
-    };
-    #--- Nuremberg ---#
-    nbg-d-m = {
-      deploy.targetHost = "root@nbg-d-m";
-      tags = ["dev" "CX33" "nuremberg" "manager"];
-    };
-    nbg-d-w = {
-      deploy.targetHost = "root@nbg-d-w";
-      tags = ["dev" "CX23" "nuremberg" "worker" "web3"];
-    };
-    #------- Prod Cluster -------#
-    #--- Helsinki ---#
-    hel-p-m = {
-      deploy.targetHost = "root@hel-p-m";
-      tags = ["prod" "CX53" "helsinki" "manager" "init"];
-    };
-    hel-p-w = {
-      deploy.targetHost = "root@hel-p-w";
-      tags = ["prod" "CX43" "helsinki" "worker" "web1"];
-    };
-    #--- Falkenstein ---#
-    fsn-p-m = {
-      deploy.targetHost = "root@fsn-p-m";
-      tags = ["prod" "CX53" "falkenstein" "manager"];
-    };
-    fsn-p-w = {
-      deploy.targetHost = "root@fsn-p-w";
-      tags = ["prod" "CX43" "falkenstein" "worker" "web2"];
-    };
-    #--- Nuremberg ---#
-    nbg-p-m = {
-      deploy.targetHost = "root@nbg-p-m";
-      tags = ["prod" "CX53" "nuremberg" "manager"];
-    };
-    nbg-p-w = {
-      deploy.targetHost = "root@nbg-p-w";
-      tags = ["prod" "CX43" "nuremberg" "worker" "web3"];
+    hel-m-2 = {
+      deploy.targetHost = "root@hel-m-2";
+      tags = ["helsinki" "manager"];
     };
   };
 
@@ -66,7 +23,7 @@
     admin = {
       roles.default = {
         tags.all = {};
-        settings.allowedKeys = {Clan-Net = "ssh-ed25519 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";};
+        settings.allowedKeys = {Clan-Net = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOb4q9LWJR54SzRkfmsA5KWA5/SDEG853oFC8TVilCW/";};
         extraModules = [./users/root];
       };
     };
@@ -91,88 +48,63 @@
       roles.default.tags.all = {};
       roles.default.extraModules = [./tags/base.nix];
     };
-    #--- dev/prod ---#
-    dev = {
-      module.name = "importer";
-      roles.default.tags.dev = {};
-      roles.default.extraModules = [./tags/dev.nix];
-    };
-    prod = {
-      module.name = "importer";
-      roles.default.tags.prod = {};
-      roles.default.extraModules = [./tags/prod.nix];
-    };
-    #------- Instance Type -------#
-    CX23 = {
-      module.name = "importer";
-      roles.default.tags.CX23 = {};
-      roles.default.extraModules = [./tags/instanceType/CX23.nix];
-    };
-    CX33 = {
-      module.name = "importer";
-      roles.default.tags.CX33 = {};
-      roles.default.extraModules = [./tags/instanceType/CX33.nix];
-    };
-    CX43 = {
-      module.name = "importer";
-      roles.default.tags.CX43 = {};
-      roles.default.extraModules = [./tags/instanceType/CX43.nix];
-    };
-    CX53 = {
-      module.name = "importer";
-      roles.default.tags.CX53 = {};
-      roles.default.extraModules = [./tags/instanceType/CX53.nix];
-    };
     #------- Location -------#
     helsinki = {
       module.name = "importer";
       roles.default.tags.helsinki = {};
       roles.default.extraModules = [./tags/location/helsinki.nix];
     };
-    nuremberg = {
-      module.name = "importer";
-      roles.default.tags.nuremberg = {};
-      roles.default.extraModules = [./tags/location/nuremberg.nix];
-    };
-    falkenstein = {
-      module.name = "importer";
-      roles.default.tags.falkenstein = {};
-      roles.default.extraModules = [./tags/location/falkenstein.nix];
-    };
-    #----------- K3s -----------#
-    # K3s First Node
+    #----------- rke2 -----------#
+    # rke2 First Node
     init = {
       module.name = "importer";
       roles.default.tags.init = {};
-      roles.default.extraModules = [./tags/k3s/init.nix];
+      roles.default.extraModules = [./tags/rke2/init.nix];
     };
-    # K3s Manager Node
+    # rke2 Manager Node
     manager = {
       module.name = "importer";
       roles.default.tags.manager = {};
-      roles.default.extraModules = [./tags/k3s/manager.nix];
+      roles.default.extraModules = [./tags/rke2/manager.nix];
     };
-    # K3s Worker Node
-    worker = {
-      module.name = "importer";
-      roles.default.tags.worker = {};
-      roles.default.extraModules = [./tags/k3s/worker.nix];
+  };
+  #-------------- Machine Configuration -------------#
+  machines = {
+    hel-m-0 = {...}: {
+      net = {
+        IPv4 = "0"; # REDACTED
+        IPv6 = "0"; # REDACTED
+        nodeIPv4 = "10.0.42.2";
+        nodeIPv6 = "fd08:2024:abba::2";
+      };
+      keepalived = {
+        priority = 200;
+        unicastPeers = ["10.0.42.3" "10.0.42.4"];
+      };
     };
-    #--- keepalived ---#
-    web1 = {
-      module.name = "importer";
-      roles.default.tags.web1 = {};
-      roles.default.extraModules = [./tags/keepalived/web1.nix];
+    hel-m-1 = {...}: {
+      net = {
+        IPv4 = "0"; # REDACTED
+        IPv6 = "0"; # REDACTED
+        nodeIPv4 = "10.0.42.3";
+        nodeIPv6 = "fd08:2024:abba::3";
+      };
+      keepalived = {
+        priority = 190;
+        unicastPeers = ["10.0.42.2" "10.0.42.4"];
+      };
     };
-    web2 = {
-      module.name = "importer";
-      roles.default.tags.web2 = {};
-      roles.default.extraModules = [./tags/keepalived/web2.nix];
-    };
-    web3 = {
-      module.name = "importer";
-      roles.default.tags.web3 = {};
-      roles.default.extraModules = [./tags/keepalived/web3.nix];
+    hel-m-2 = {...}: {
+      net = {
+        IPv4 = "0"; # REDACTED
+        IPv6 = "0"; # REDACTED
+        nodeIPv4 = "10.0.42.4";
+        nodeIPv6 = "fd08:2024:abba::4";
+      };
+      keepalived = {
+        priority = 180;
+        unicastPeers = ["10.0.42.3" "10.0.42.2"];
+      };
     };
   };
 }

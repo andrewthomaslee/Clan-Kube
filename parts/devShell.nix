@@ -6,20 +6,15 @@
   }: {
     devShells = let
       bash_aliases = pkgs.writeText "bash_aliases" ''
-        alias kd="kubectl --kubeconfig ~/.kube/dev"
-        alias kp="kubectl --kubeconfig ~/.kube/prod"
+        alias k="kubectl "
 
-        alias k9d="k9s --kubeconfig ~/.kube/dev"
-        alias k9p="k9s --kubeconfig ~/.kube/prod"
+        alias k-network-tools="kubectl run -n kube-system -it --rm --image jonlabelle/network-tools network-tools"
 
-        alias hd="helm --kubeconfig ~/.kube/dev"
-        alias hp="helm --kubeconfig ~/.kube/prod"
+        alias fetch-token-and-kubeconfig="nix run .#get-kube-config && nix run .#get-rke2-token && clan vars generate hel-m-0 --generator rke2 --regenerate"
 
-        alias ld="longhornctl --kubeconfig=$HOME/.kube/dev"
-        alias lp="longhornctl --kubeconfig=$HOME/.kube/prod"
-
-        alias kd-network-tools="kd run -it --rm --image jonlabelle/network-tools network-tools"
-        alias kp-network-tools="kp run -it --rm --image jonlabelle/network-tools network-tools"
+        alias install-hel-m-0="clan machines install hel-m-0 --target-host root@$HEL_M_0 --yes"
+        alias install-hel-m-1="clan machines install hel-m-1 --target-host root@$HEL_M_1 --yes"
+        alias install-hel-m-2="clan machines install hel-m-2 --target-host root@$HEL_M_2 --yes"
       '';
       k9s_config = pkgs.writeText "config.yaml" ''
         k9s:
@@ -76,19 +71,6 @@
         ref = "master";
         rev = "7f2555c2fe7a1f248ed2d4301e46c8eebcbbc4e2";
       };
-      hcloud-ip = pkgs.stdenv.mkDerivation {
-        name = "hcloud-ip-linux64";
-        src = pkgs.fetchurl {
-          url = "https://github.com/FootprintDev/hcloud-ip/releases/download/v0.0.1/hcloud-ip-linux64";
-          sha256 = "0dvl3qp4cvx994b5jkl7x99fpn5b1vh1gpbja7cdsixmgjyrgc2r";
-        };
-        unpackPhase = "true";
-        installPhase = ''
-          mkdir -p $out/bin
-          cp $src $out/bin/hcloud-ip
-          chmod +x $out/bin/hcloud-ip
-        '';
-      };
       longhornctl = pkgs.stdenv.mkDerivation {
         name = "longhornctl";
         src = pkgs.fetchurl {
@@ -105,19 +87,20 @@
     in {
       default = pkgs.mkShell {
         buildInputs = with pkgs; [bash];
-        packages = with pkgs;
+        packages =
           [
-            hcloud-ip
             longhornctl
             inputs.clan-core.packages.${system}.clan-cli
+            inputs.tailscale.packages.${system}.tailscale
+          ]
+          ++ (with pkgs; [
             tmux
             rsync
             vim
-            openiscsi
-          ]
-          ++ (with inputs.nixpkgs-unstable.legacyPackages.${system}; [
-            tailscale
+            httpie
             k3s
+            rke2_1_34
+            cilium-cli
             k9s
             kubernetes-helm
             kompose
@@ -126,6 +109,7 @@
         shellHook = ''
           export REPO_ROOT=$(git rev-parse --show-toplevel)
           export CLAN_DIR=$REPO_ROOT
+          export KUBECONFIG=$HOME/.kube/config
           export SHELL=$(which bash)
           if [ -f $REPO_ROOT/.env ]; then
             source $REPO_ROOT/.env
@@ -133,10 +117,7 @@
 
           source ${bash_aliases}
           source ${complete_alias}/complete_alias
-          complete -F _complete_alias hd
-          complete -F _complete_alias hp
-          complete -F _complete_alias kd
-          complete -F _complete_alias kp
+          complete -F _complete_alias k
 
           # k9s config setup
           export EDITOR=vim

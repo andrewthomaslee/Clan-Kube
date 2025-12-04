@@ -2,9 +2,11 @@
   config,
   pkgs,
   lib,
-  pkgs-unstable,
+  inputs,
   ...
-}: {
+}: let
+  tailscale = inputs.tailscale.packages.${pkgs.stdenv.hostPlatform.system}.tailscale;
+in {
   options.tailscale-server.enable = lib.mkEnableOption "tailscale exit node";
 
   config = lib.mkIf config.tailscale-server.enable {
@@ -26,7 +28,7 @@
 
     services.tailscale = {
       enable = true;
-      package = pkgs-unstable.${pkgs.system}.tailscale;
+      package = tailscale;
       openFirewall = true;
       permitCertUid = "andrewthomaslee.business@gmail.com";
       authKeyFile = config.clan.core.vars.generators.tailscale.files."auth_key".path;
@@ -35,7 +37,6 @@
       useRoutingFeatures = "server";
       extraUpFlags = [
         "--advertise-exit-node"
-        "--accept-routes"
         "--advertise-tags=tag:clan-net"
       ];
     };

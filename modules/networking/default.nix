@@ -1,5 +1,5 @@
 {...}: {
   imports = [
-    ./keepalived.nix
+    ./net.nix
   ];
 }

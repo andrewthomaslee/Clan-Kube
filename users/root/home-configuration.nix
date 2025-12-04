@@ -15,10 +15,9 @@
   programs.bash = {
     enable = true;
     shellAliases = {};
+    sessionVariables = {
+      KUBECONFIG = lib.mkIf osConfig.rke2.manager "/etc/rancher/rke2/rke2.yaml";
+    };
   };
-  # CLI
-  programs = {
-    yazi.enable = true;
-    tmux.enable = true;
-  };
+  programs.k9s.enable = lib.mkIf osConfig.rke2.manager true;
 }

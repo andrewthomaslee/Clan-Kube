@@ -60,12 +60,12 @@ in {
           --log-level=NOTICE \
           --log-file=/var/log/rclone-${cfg.name}.log \
           --buffer-size=512M \
-          --checkers=1 \
-          --transfers=1 \
-          --ftp-concurrency=1 \
+          --checkers=3 \
+          --transfers=3 \
+          --ftp-concurrency=3 \
           --cache-dir=/var/cache/rclone/${cfg.name} \
           --vfs-cache-mode=full \
-          --vfs-cache-max-size=10G \
+          --vfs-cache-max-size=25G \
           --vfs-refresh \
           --daemon
         '';

@@ -1,40 +1,13 @@
 {
   "machines": {
-    "hel-d-m": {
-      "installedAt": 1762555713
+    "hel-m-0": {
+      "installedAt": 1764428717
     },
-    "fsn-d-m": {
-      "installedAt": 1762556570
+    "hel-m-1": {
+      "installedAt": 1764429538
     },
-    "nbg-d-m": {
-      "installedAt": 1762556618
-    },
-    "fsn-d-w": {
-      "installedAt": 1762556578
-    },
-    "hel-d-w": {
-      "installedAt": 1762556586
-    },
-    "hel-p-m": {
-      "installedAt": 1762557964
-    },
-    "fsn-p-m": {
-      "installedAt": 1762558407
-    },
-    "nbg-p-m": {
-      "installedAt": 1762558426
-    },
-    "hel-p-w": {
-      "installedAt": 1762558427
-    },
-    "fsn-p-w": {
-      "installedAt": 1762558406
-    },
-    "nbg-d-w": {
-      "installedAt": 1762556653
-    },
-    "nbg-p-w": {
-      "installedAt": 1762558443
+    "hel-m-2": {
+      "installedAt": 1764429775
     }
   }
 }

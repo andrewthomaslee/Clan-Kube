@@ -1,4 +1,9 @@
-{config, ...}: {
+{
+  config,
+  osConfig,
+  lib,
+  ...
+}: {
   #-- DONT TOUCH --#
   home.username = "netsa";
   home.homeDirectory = "/home/netsa";
@@ -10,10 +15,5 @@
   programs.bash = {
     enable = true;
     shellAliases = {};
-  };
-  # CLI
-  programs = {
-    yazi.enable = true;
-    tmux.enable = true;
   };
 }
