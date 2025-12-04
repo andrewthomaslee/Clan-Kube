@@ -72,11 +72,12 @@ $ clan machines install hel-m-2 --target-host root@<IP>
 
 ###### *Disclaimer for Prerequisites
 - VPN is `Tailscale` so an account or self hosted `Headscale` is required. Edit *`modules/tailscale`* but just use the free tier of `Tailscale`.
-- HAProxy has mTLS with `Cloudflare Origin Certs`. Disable mTLS and change the certs in *`modules/haproxy`*.
-- Assumes `IPv4` and `IPv6` and `Hetzner vSwitch` is used. Edit *`modules/network`* and *`modules/rke2`*.
-- Assumes `x86_64-linux`. Edit the flake's systems attribute.
+- HAProxy has mTLS with `Cloudflare Origin Certs`. Disable mTLS & change the certs in *`modules/haproxy`*.
+- Assumes `IPv4` & `IPv6` & `Hetzner vSwitch` is used. Edit *`modules/network`* & *`modules/rke2`*.
+- Assumes `x86_64-linux`. Edit `flake.nix` systems attribute.
 - Assumes `2 NVME` drives. Edit *`modules/disko`* & *`modules/rke2/longhorn`*
-- Edit the public `ssh key` in *`users`* and *`clan.nix`*
+- Assumes `L4 Load Balancer` pointing to each node on port *80* & *443*. Edit *`modules/haproxy`* & *`modules/keepalived`*
+- Edit the public `ssh key` in *`users`* & *`clan.nix`*
 
 
 
